@@ -3,38 +3,29 @@ package com.base.pe.steps.login;
 import com.base.pe.pages.login.LoginPage;
 import net.serenitybdd.annotations.Step;
 
-/*import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;*/
+public class LoginStep {
 
-import java.time.Duration;
-
-public class LoginStep extends LoginPage {
-
-    // Constructor
-    public LoginStep() {
-        super();
-    }
+    private LoginPage loginPage;
 
     @Step("Ingresar usuario")
     public void typeUsername(String username) {
-        /*if(txt_username == null) {
-            System.out.println("txt_username is null");
-        } else {
-            WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.visibilityOf(txt_username));
-            txt_username.click();
-            txt_username.sendKeys(username);
-        }*/
-        txt_username.sendKeys(username);
+        loginPage.typeUsername(username);
     }
 
     @Step("Ingresar contraseña")
     public void typePassword(String password) {
-        txt_password.sendKeys(password);
+        loginPage.typePassword(password);
     }
 
     @Step("Clic en el botón login")
     public void click_Login() {
-        btn_login.click();
+        loginPage.clickLoginButton();
+    }
+
+    @Step("Login con credenciales")
+    public void loginWithCredentials(String username, String password) {
+        typeUsername(username);
+        typePassword(password);
+        click_Login();
     }
 }

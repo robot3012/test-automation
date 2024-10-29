@@ -10,42 +10,37 @@ import net.serenitybdd.annotations.Steps;
 import org.junit.Assert;
 
 public class LoginDef {
-    @Steps(shared = true)
-    WebSite url;
+    @Steps
+    private WebSite url;
 
-    @Steps(shared = true)
-    LoginStep login = new LoginStep(); // Inicialización de LoginStep
+    @Steps
+    private LoginStep login;
 
-    @Steps(shared = true)
-    ValidationStep validation;
+    @Steps
+    private ValidationStep validation;
 
     @Given("el usuario navega al sitio web")
-    public void userNavigateTo(){
+    public void userNavigateTo() {
         url.navigateTo("https://www.saucedemo.com/v1/index.html");
-
     }
 
     @When("ingresa credenciales válidas")
-    public void userLoginWithValidCredentials(){
-        login.typeUsername("standard_user");
-        login.typePassword("secret_sauce");
-        login.click_Login();
+    public void userLoginWithValidCredentials() {
+        login.loginWithCredentials("standard_user", "secret_sauce");
     }
 
     @Then("la aplicación debería mostrar el módulo principal de productos")
-    public void systemShowProductsModule(){
-        Assert.assertTrue(validation.titleIsVisible());
+    public void systemShowProductsModule() {
+        Assert.assertTrue("El módulo de productos no es visible", validation.titleIsVisible());
     }
 
     @When("ingresa credenciales inválidas")
-    public void userLoginWithInvalidCredentials(){
-        login.typeUsername("standard_user");
-        login.typePassword("secret_sauce12");
-        login.click_Login();
+    public void userLoginWithInvalidCredentials() {
+        login.loginWithCredentials("standard_user", "secret_sauce12");
     }
 
     @Then("la aplicación debería mostrar un mensaje de error")
-    public void systemNotShowProductsModule(){
-        Assert.assertTrue(validation.errorMessageIsVisible());
+    public void systemNotShowProductsModule() {
+        Assert.assertTrue("El mensaje de error no es visible", validation.errorMessageIsVisible());
     }
 }
